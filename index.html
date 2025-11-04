@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bibliothèque de Prompts</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/rating.css" />
+    <link rel="stylesheet" href="css/notes.css" />
+    <link rel="stylesheet" href="css/metadata.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Bibliothèque de Prompts</h1>
+        <button id="themeToggle" class="theme-toggle">
+          <span class="theme-toggle-text">Mode sombre</span>
+        </button>
+      </header>
+
+      <main>
+        <section class="prompt-form">
+          <h2>Nouveau Prompt</h2>
+          <form id="promptForm">
+            <div class="form-group">
+              <label for="promptTitle">Titre</label>
+              <input type="text" id="promptTitle" required />
+            </div>
+            <div class="form-group">
+              <label for="promptModel">Modèle</label>
+              <input
+                type="text"
+                id="promptModel"
+                placeholder="ex: GPT-4, Claude-2..."
+              />
+            </div>
+            <div class="form-group">
+              <label for="promptContent">Contenu</label>
+              <textarea id="promptContent" required></textarea>
+            </div>
+            <button type="submit" class="btn-save">Sauvegarder</button>
+          </form>
+        </section>
+
+        <section class="prompts-container">
+          <div class="prompts-header">
+            <h2>Mes Prompts</h2>
+            <div class="import-export-buttons">
+              <button id="exportBtn" class="btn-action">Exporter</button>
+              <button id="importBtn" class="btn-action">Importer</button>
+              <input type="file" id="importInput" accept=".json" style="display: none;">
+            </div>
+          </div>
+          <div id="promptsList" class="prompts-grid"></div>
+        </section>
+      </main>
+    </div>
+    <script src="js/metadata.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

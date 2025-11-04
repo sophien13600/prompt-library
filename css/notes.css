@@ -1,0 +1,39 @@
+.notes-container {
+  margin-top: 1rem;
+  border-top: 1px solid var(--accent);
+  padding-top: 1rem;
+}
+
+.notes-textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 0.8rem;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  resize: vertical;
+  margin-bottom: 0.5rem;
+}
+
+.notes-status {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.character-count {
+  float: right;
+  opacity: 0.8;
+}
+
+.save-indicator {
+  display: inline-block;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.save-indicator.visible {
+  opacity: 1;
+}
