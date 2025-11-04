@@ -33,7 +33,10 @@ prompt-library/
 2. Remplissez le formulaire avec le titre et le contenu de votre prompt
 3. Cliquez sur "Sauvegarder" pour ajouter le prompt à votre bibliothèque
 4. Les prompts sont affichés sous forme de cartes avec un aperçu du contenu
-5. Utilisez le bouton "Supprimer" pour retirer un prompt de la bibliothèque
+5. Un système d'evaluation par étoiles permet de noter le prompt
+6. L'utilisateur peut creer des notes qui se sauvegardent automatiqument après 3 secondes
+7. Utilisez le bouton "Supprimer" pour retirer un prompt de la bibliothèque
+8. Possibilité d'importer ou exporter des prompts au format json
 
 ## Technologies Utilisées
 
