@@ -10,28 +10,30 @@ class PromptLibrary {
     this.saveTimeouts = {};
     this.metadata = new PromptMetadata();
     this.VERSION = "1.0.0";
-    
+
     // Initialize theme
-    this.currentTheme = localStorage.getItem('theme') || 'light';
+    this.currentTheme = localStorage.getItem("theme") || "light";
     this.applyTheme(this.currentTheme);
 
     this.init();
   }
 
   applyTheme(theme) {
-    if (theme === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      this.themeToggle.querySelector('.theme-toggle-text').textContent = 'Mode clair';
+    if (theme === "dark") {
+      document.documentElement.setAttribute("data-theme", "dark");
+      this.themeToggle.querySelector(".theme-toggle-text").textContent =
+        "Mode clair";
     } else {
-      document.documentElement.removeAttribute('data-theme');
-      this.themeToggle.querySelector('.theme-toggle-text').textContent = 'Mode sombre';
+      document.documentElement.removeAttribute("data-theme");
+      this.themeToggle.querySelector(".theme-toggle-text").textContent =
+        "Mode sombre";
     }
     this.currentTheme = theme;
-    localStorage.setItem('theme', theme);
+    localStorage.setItem("theme", theme);
   }
 
   toggleTheme() {
-    const newTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+    const newTheme = this.currentTheme === "light" ? "dark" : "light";
     this.applyTheme(newTheme);
   }
 
@@ -52,15 +54,15 @@ class PromptLibrary {
         this.handleNotesInput(e);
       }
     });
-    
+
     // Theme toggling
     this.themeToggle.addEventListener("click", () => this.toggleTheme());
-    
+
     // Initialisation des fonctionnalités d'import/export
     const exportBtn = document.getElementById("exportBtn");
     const importBtn = document.getElementById("importBtn");
     const importInput = document.getElementById("importInput");
-    
+
     exportBtn.addEventListener("click", () => this.exportData());
     importBtn.addEventListener("click", () => importInput.click());
     importInput.addEventListener("change", (e) => this.handleImport(e));
@@ -310,20 +312,24 @@ class PromptLibrary {
     try {
       const prompts = this.getPromptsFromStorage();
       const stats = this.calculateStats(prompts);
-      
+
       const exportData = {
         version: this.VERSION,
         timestamp: new Date().toISOString(),
         stats,
-        prompts
+        prompts,
       };
 
-      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: "application/json" });
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], {
+        type: "application/json",
+      });
       const url = URL.createObjectURL(blob);
-      
+
       const a = document.createElement("a");
       a.href = url;
-      a.download = `prompt-library-export-${new Date().toISOString().split("T")[0]}.json`;
+      a.download = `prompt-library-export-${
+        new Date().toISOString().split("T")[0]
+      }.json`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -339,7 +345,7 @@ class PromptLibrary {
     let sumRatings = 0;
     const modelUsage = {};
 
-    prompts.forEach(prompt => {
+    prompts.forEach((prompt) => {
       totalRatings += prompt.ratings.length;
       sumRatings += prompt.averageRating * prompt.ratings.length;
       const model = prompt.metadata.model;
@@ -347,15 +353,16 @@ class PromptLibrary {
     });
 
     const averageRating = totalRatings > 0 ? sumRatings / totalRatings : 0;
-    const mostUsedModel = Object.entries(modelUsage)
-      .sort((a, b) => b[1] - a[1])
-      .map(([model, count]) => ({ model, count }))[0] || null;
+    const mostUsedModel =
+      Object.entries(modelUsage)
+        .sort((a, b) => b[1] - a[1])
+        .map(([model, count]) => ({ model, count }))[0] || null;
 
     return {
       totalPrompts,
       totalRatings,
       averageRating,
-      mostUsedModel
+      mostUsedModel,
     };
   }
 
@@ -366,28 +373,37 @@ class PromptLibrary {
 
       // Backup des données existantes
       const backup = localStorage.getItem("prompts");
-      
+
       const reader = new FileReader();
       reader.onload = async (event) => {
         try {
           const importData = JSON.parse(event.target.result);
-          
+
           // Validation du format et de la version
           if (!this.validateImportData(importData)) {
-            throw new Error("Format de fichier invalide ou version non supportée");
+            throw new Error(
+              "Format de fichier invalide ou version non supportée"
+            );
           }
 
           // Vérification des doublons
           const existingPrompts = this.getPromptsFromStorage();
-          const duplicates = this.findDuplicates(existingPrompts, importData.prompts);
+          const duplicates = this.findDuplicates(
+            existingPrompts,
+            importData.prompts
+          );
 
           if (duplicates.length > 0) {
             const shouldReplace = confirm(
               `${duplicates.length} prompts ont des IDs en conflit. Voulez-vous remplacer les versions existantes ?\n` +
-              "Annuler conservera les versions existantes."
+                "Annuler conservera les versions existantes."
             );
 
-            const mergedPrompts = this.mergePrompts(existingPrompts, importData.prompts, shouldReplace);
+            const mergedPrompts = this.mergePrompts(
+              existingPrompts,
+              importData.prompts,
+              shouldReplace
+            );
             this.savePromptsToStorage(mergedPrompts);
           } else {
             // Pas de doublons, on ajoute simplement les nouveaux prompts
@@ -407,7 +423,7 @@ class PromptLibrary {
           throw error;
         }
       };
-      
+
       reader.readAsText(file);
     } catch (error) {
       alert("Erreur lors de l'import : " + error.message);
@@ -428,25 +444,25 @@ class PromptLibrary {
   }
 
   findDuplicates(existing, imported) {
-    const existingIds = new Set(existing.map(p => p.id));
-    return imported.filter(p => existingIds.has(p.id));
+    const existingIds = new Set(existing.map((p) => p.id));
+    return imported.filter((p) => existingIds.has(p.id));
   }
 
   mergePrompts(existing, imported, replaceExisting) {
-    const existingMap = new Map(existing.map(p => [p.id, p]));
-    
+    const existingMap = new Map(existing.map((p) => [p.id, p]));
+
     if (replaceExisting) {
       // Remplacer les prompts existants par les versions importées
-      imported.forEach(p => existingMap.set(p.id, p));
+      imported.forEach((p) => existingMap.set(p.id, p));
     } else {
       // Garder les versions existantes
-      imported.forEach(p => {
+      imported.forEach((p) => {
         if (!existingMap.has(p.id)) {
           existingMap.set(p.id, p);
         }
       });
     }
-    
+
     return Array.from(existingMap.values());
   }
 }

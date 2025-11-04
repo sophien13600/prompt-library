@@ -17,9 +17,13 @@ Une application web simple pour sauvegarder et gérer vos prompts préférés.
 prompt-library/
 ├── index.html
 ├── css/
-│   └── style.css
+│   ├── style.css
+│   ├── rating.css
+│   ├── notes.css
+│   └── metadata.css
 ├── js/
-│   └── app.js
+│   ├── app.js
+│   └── metadata.js
 └── README.md
 ```
 
@@ -40,7 +44,14 @@ prompt-library/
 
 ## Design
 
-L'interface utilise un thème sombre inspiré des éditeurs de code avec :
-- Une palette de couleurs adaptée aux développeurs
+L'interface propose deux thèmes :
+
+- Un thème clair par défaut pour une utilisation confortable en journée
+- Un thème sombre inspiré des éditeurs de code pour une utilisation nocturne
+
+Caractéristiques du design :
+
+- Une palette de couleurs adaptée et harmonieuse
 - Une mise en page responsive
 - Des ombres et contrastes pour une meilleure lisibilité
+- Un bouton de basculement entre les thèmes
